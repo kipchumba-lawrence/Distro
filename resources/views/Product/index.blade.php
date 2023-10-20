@@ -10,8 +10,7 @@
                         <h6>Products</h6>
                         <div class="ml-auto">
                             <!-- Content to align to the right goes here -->
-                            <button class="btn btn-xs btn-secondary" data-bs-toggle="modal"
-                                data-bs-target="#create_category">Add Product +</button>
+                            <a href="{{route('product.create')}}"><button class="btn btn-xs btn-secondary" data-bs-toggle="modal">Add Product +</button></a>
                         </div>
                     </div>
                 </div>

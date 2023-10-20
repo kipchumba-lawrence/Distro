@@ -9,6 +9,7 @@
     <title>
         Distro System
     </title>
+    @notifyCss
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -71,6 +72,8 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="assets/js/argon-dashboard.js"></script>
     @stack('js');
+    <x-notify::notify />
+    @notifyJs
     @livewireScripts
 </body>
 
