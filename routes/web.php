@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Breakages;
 use App\Http\Controllers\Product;
 use App\Http\Controllers\Category;
 
@@ -28,7 +29,6 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Sale;
 use App\Http\Controllers\UserProfileController;
 
-
 Route::get('/', function () {
 	return redirect('/dashboard');
 })->middleware('auth');
@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::resource('category', Category::class);
 	Route::resource('product', Product::class);
+	Route::resource('breakages', Breakages::class);
 	Route::get('/POS', [Sale::class, 'show'])->name('POS');
 
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

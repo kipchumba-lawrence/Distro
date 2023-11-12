@@ -59,10 +59,10 @@
             @forelse ($cartItems as $item)
                 <div class="card px-3 py-2 mx-2 my-1">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-6">
                             <span class="text-xs"> {{ $item->product->name }}</span>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-4">
                             {{-- <form action="" method="POST">
                                 <input type="number" value="{{ $item->quantity }}" onchange="submit" name="quantity" class="form-control"
                                     size="10">
@@ -74,7 +74,7 @@
                              --}}
                             <span class="text-sm">Ksh. {{ $item->product->price }}</span>
                         </div>
-                        <div class="col-lg-2 col-md-2">
+                        <div class="col-2">
                             <i class="fa fa-trash" wire:click="removeFromCart({{ $item->id }})"
                                 style="color: red; cursor: pointer;" aria-hidden="true"></i>
                         </div>
