@@ -11,29 +11,14 @@
                         <div class="ml-auto">
                             <!-- Content to align to the right goes here -->
                             <a href="{{ route('product.create') }}"><button class="btn btn-xs btn-secondary"
-                                    data-bs-toggle="modal">Add Product +</button></a>
+                                    data-bs-toggle="modal">Add New Product +</button></a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
+                    <form action=""></form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('livewire:load', function() {
-            Livewire.on('update-category', categoryId => {
-                // Trigger the Livewire component with the category id
-                Livewire.emit('update-category', categoryId);
-            });
-
-            $('#update_category').on('show.bs.modal', function(event) {
-                // Get the category id from the clicked "Edit" button's data attribute
-                const categoryId = $(event.relatedTarget).data('category-id');
-
-                // Trigger the Livewire event to pass the category id
-                Livewire.emit('editCategory', categoryId);
-            });
-        });
-    </script>
 @endsection
