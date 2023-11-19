@@ -30,6 +30,7 @@
             <div class="card-body">
                 <div class="my-2">
                     {{-- Search field --}}
+                    {{-- Work on adding the new search field to filter products based on product name and category --}}
                     <form action="">
                         {{ csrf_field() }}
                         <input type="text" class="form-control" name="search-field" placeholder="search products...">
