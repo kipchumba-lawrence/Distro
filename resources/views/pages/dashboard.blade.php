@@ -12,7 +12,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
                                     <h5 class="font-weight-bolder">
-                                        $53,000
+                                        {{ $daySales }}
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+55%</span>
@@ -37,7 +37,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">New Breakages</p>
                                     <h5 class="font-weight-bolder">
-                                        2,300
+                                        {{ $breakagesCount }}
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -86,8 +86,7 @@
                             <div class="col-8">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Month Sales</p>
-                                    <h5 class="font-weight-bolder">
-                                        $103,430
+                                    <h5 class="font-weight-bolder"> {{ $monthSales }}
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
@@ -126,7 +125,8 @@
                 <div class="card card-carousel overflow-hidden h-100 p-0">
                     <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
                         <div class="carousel-inner border-radius-lg h-100">
-                            <div class="carousel-item h-100 active" style="background-image: url('./img/carousel-1.jpg');
+                            <div class="carousel-item h-100 active"
+                                style="background-image: url('./img/carousel-1.jpg');
             background-size: cover;">
                                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -136,7 +136,8 @@
                                     <p>There’s nothing I really wanted to do in life that I wasn’t able to get good at.</p>
                                 </div>
                             </div>
-                            <div class="carousel-item h-100" style="background-image: url('./img/carousel-2.jpg');
+                            <div class="carousel-item h-100"
+                                style="background-image: url('./img/carousel-2.jpg');
             background-size: cover;">
                                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -147,7 +148,8 @@
                                         ability to learn.</p>
                                 </div>
                             </div>
-                            <div class="carousel-item h-100" style="background-image: url('./img/carousel-3.jpg');
+                            <div class="carousel-item h-100"
+                                style="background-image: url('./img/carousel-3.jpg');
             background-size: cover;">
                                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -178,136 +180,42 @@
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             {{-- Sales per products. To showcase the most popular products --}}
-                            <h6 class="mb-2">Sales by Country</h6>
+                            <h6 class="mb-2">Top Products</h6>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table align-items-center ">
                             <tbody>
+                                @foreach ($topSellingProducts as $product)    
                                 <tr>
                                     <td class="w-30">
                                         <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/US.png" alt="Country flag">
-                                            </div>
                                             <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">United States</h6>
+                                                <p class="text-xs font-weight-bold mb-0">Item:</p>
+                                                <h6 class="text-sm mb-0">{{ $product->name }}</h6>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">2500</h6>
+                                        <div class="">
+                                            <p class="text-xs font-weight-bold mb-0">Category:</p>
+                                            <h6 class="text-sm mb-0">{{$product->category_name}}</h6>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$230,900</h6>
+                                            <p class="text-xs font-weight-bold mb-0">Sold:</p>
+                                            <h6 class="text-sm mb-0">{{$product->total_quantity}}</h6>
                                         </div>
                                     </td>
                                     <td class="align-middle text-sm">
                                         <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">29.9%</h6>
+                                            <p class="text-xs font-weight-bold mb-0">Amount:</p>
+                                            <h6 class="text-sm mb-0">{{$product->total_amount}}</h6>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/DE.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Germany</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">3.900</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$440,000</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">40.22%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/GB.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Great Britain</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">1.400</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$190,700</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">23.44%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="w-30">
-                                        <div class="d-flex px-2 py-1 align-items-center">
-                                            <div>
-                                                <img src="./img/icons/flags/BR.png" alt="Country flag">
-                                            </div>
-                                            <div class="ms-4">
-                                                <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                                <h6 class="text-sm mb-0">Brasil</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                            <h6 class="text-sm mb-0">562</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                            <h6 class="text-sm mb-0">$143,960</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-sm">
-                                        <div class="col text-center">
-                                            <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                            <h6 class="text-sm mb-0">32.14%</h6>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

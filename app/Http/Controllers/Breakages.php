@@ -85,6 +85,12 @@ class Breakages extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function cleared($id){
+        $breakage = Breakage::find($id);
+        $breakage->cleared_status = 1;
+        $breakage->save();
+        return redirect()->route('breakages.index');
+    }
     public function destroy(string $id)
     {
         //

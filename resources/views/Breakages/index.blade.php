@@ -61,11 +61,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pt-3 text-center">
-                                    <button class="btn btn-default btn-sm">
-                                        Approve
-                                    </button>
-                                </div>
+                                <form action="{{ route('breakages.cleared', ['id' => $breakage->id]) }}" method="post">
+                                    @csrf
+                                    <div class="pt-3 text-center">
+                                        <button type="submit" class="btn btn-default btn-sm">
+                                            Approve
+                                        </button>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     @endforeach

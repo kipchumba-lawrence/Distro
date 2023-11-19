@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('category', Category::class);
 	Route::resource('product', Product::class);
 	Route::resource('breakages', Breakages::class);
+
+	// Clear breakages
+	Route::post('/breakages/{id}/cleared', [Breakages::class, 'cleared'])->name('breakages.cleared');
 	Route::get('/POS', [Sale::class, 'show'])->name('POS');
 
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
