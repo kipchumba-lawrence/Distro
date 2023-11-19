@@ -13,8 +13,9 @@ class Breakages extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-return view('Breakages.create');
+    {  
+    $breakages = Breakage::with('product', 'user')->where('cleared_status',0)->get();
+    return view('Breakages.index',compact('breakages'));
     }
 
     /**
@@ -36,24 +37,24 @@ return view('Breakages.create');
                     'product_id' => 'required',
                     'user_id' => 'required',
                     'quantity' => 'required',
-                    'date_of_breakage' => 'required'
+                    'date_of_breakage' => 'required',
+                    'reason' => 'required',
                 ]);
-            
                 // Save the breakages record to the database
                 $breakage = new Breakage;
                 $breakage->product_id = $request->product_id;
                 $breakage->user_id = $request->user_id;
                 $breakage->quantity = $request->quantity;
                 $breakage->date_of_breakage = $request->date_of_breakage;
+                $breakage->reason= $request->reason;
                 $breakage->save();
-                            // add some toast messages to show message has been saved
 
-
-                            //TODO:Handle the stock changes 
-
-
-                // Redirect to another page or return a response
-                return redirect()->route('breakages.index');
+                // Update the stock
+                $brokenproduct=Product::find($request->product_id);
+                $brokenproduct->quantity -= $request->quantity;
+                $brokenproduct->save();
+            
+                return redirect()->route('breakages.create');
             }    
 
 

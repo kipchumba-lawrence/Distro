@@ -35,13 +35,13 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">New Breakages</p>
                                     <h5 class="font-weight-bolder">
                                         2,300
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                        since last week
+                                        since last month
                                     </p>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Month Sales</p>
                                     <h5 class="font-weight-bolder">
                                         $103,430
                                     </h5>
@@ -121,6 +121,7 @@
                     </div>
                 </div>
             </div>
+            {{-- Replace with a section to show depleting stocks --}}
             <div class="col-lg-5">
                 <div class="card card-carousel overflow-hidden h-100 p-0">
                     <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
@@ -176,6 +177,7 @@
                 <div class="card ">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
+                            {{-- Sales per products. To showcase the most popular products --}}
                             <h6 class="mb-2">Sales by Country</h6>
                         </div>
                     </div>

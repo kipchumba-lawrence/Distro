@@ -14,44 +14,55 @@
                     <form method="POST" action="{{ route('breakages.store') }}" class="my-4">
                         @csrf
                         <!-- Product ID (You may use a dropdown or input based on your UI/UX) -->
-                        <div class="mb-3">
-                            <label for="product_id" class="form-label">Product:</label>
-                            {{-- <input type="text" name="product_id" id="product_id" class="form-control" required> --}}
-                            <select name="product_id" id="" class="form-control">
-                                @foreach ($products as $product)
-                                    <option value="{{ $product->id }}"> {{ $product->name }} --
-                                        {{ $product->category->name }}</option>
-                                @endforeach
-                                <option value=""></option>
-                            </select>
-                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="product_id" class="form-label">Product:</label>
+                                {{-- <input type="text" name="product_id" id="product_id" class="form-control" required> --}}
+                                <select name="product_id" id="" class="form-control">
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}"> {{ $product->name }} --
+                                            {{ $product->category->name }}</option>
+                                    @endforeach
+                                    <option value=""></option>
+                                </select>
+                            </div>
 
-                        <!-- User ID (You may use a dropdown or input based on your UI/UX) -->
-                        <div class="mb-3">
-                            <label for="user_id" class="form-label">User:</label>
-                            <select name="user_id" id="user_id" class="form-select" required>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->fisrtname }} {{ $user->lastname }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <!-- User ID (You may use a dropdown or input based on your UI/UX) -->
+                            <div class="col mb-3">
+                                <label for="user_id" class="form-label">User:</label>
+                                <select name="user_id" id="user_id" class="form-select" required>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->fisrtname }} {{ $user->lastname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Quantity -->
-                        <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control" required>
-                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="quantity" class="form-label">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" class="form-control" required>
+                            </div>
 
-                        <!-- Date of Breakage -->
-                        <div class="mb-3">
-                            <label for="date_of_breakage" class="form-label">Date of Breakage:</label>
-                            <input type="datetime-local" name="date_of_breakage" id="date_of_breakage" class="form-control"
-                                required>
-                        </div>
+                            <!-- Date of Breakage -->
+                            <div class="col mb-3">
+                                <label for="date_of_breakage" class="form-label">Date of Breakage:</label>
+                                <input type="datetime-local" name="date_of_breakage" id="date_of_breakage"
+                                    class="form-control" required>
+                            </div>
 
+                        </div>
+                        <div class="row">
+                            <div class="col mb-3">
+                                <textarea name="reason" class="form-control" cols="1" rows="3" placeholder="Enter reason for breakage"></textarea>
+                            </div>
+                        </div>
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                     </form>
 
 

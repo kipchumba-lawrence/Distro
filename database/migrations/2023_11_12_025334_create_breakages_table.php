@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->timestamp('date_of_breakage')->nullable();
             $table->boolean('cleared_status')->default(false);
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
