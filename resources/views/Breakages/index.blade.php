@@ -7,7 +7,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4>Recorded Breakages</h4>
-                        <a href="{{route('breakages.create')}}">
+                        <a href="{{ route('breakages.create') }}">
                             <button class="btn btn-primary">Record Breakage</button>
                         </a>
                     </div>
@@ -74,10 +74,12 @@
                         </div>
                     @endforeach
                     {{-- End of card --}}
-
-
-
-
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a href="{{ route('approvedBreakages') }}" class="">
+                        <button class="btn btn-primary">
+                            View Approved Breakages
+                        </button></a>
                 </div>
             </div>
         </div>

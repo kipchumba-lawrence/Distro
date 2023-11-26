@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
@@ -15,13 +16,18 @@ class POS extends Component
     public $products;
     public $cartItems;
     public $cartTotal;
+    public $customer_search;
+    public $customer;
     public function mount()
     {
+        $this->customer_search = NULL;
+        $this->customer = NULL;
         $this->products = Product::where('quantity', '>', 0)->with('category')->get();
     }
     public function render()
     {
         $this->cartItems = Cart::with('product')->get();
+        $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
         $this->cartTotal = Cart::sum('amount');
         return view('livewire.p-o-s');
     }
@@ -58,7 +64,7 @@ class POS extends Component
         $order->total_amount = $this->cartTotal;
         $order->attended_by = auth()->id();
         $order->save();
-    
+
         foreach ($this->cartItems as $cartItem) {
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
@@ -66,15 +72,14 @@ class POS extends Component
             $orderDetail->quantity = $cartItem->quantity;
             $orderDetail->amount = $cartItem->amount;
             $orderDetail->save();
-    
+
             // Update the product stock in the products table
             $product = Product::find($cartItem->product_id);
             $product->quantity -= $cartItem->quantity;
             $product->save();
         }
-    
+
         // Clear the cart after successful checkout
         Cart::truncate();
     }
-    
 }

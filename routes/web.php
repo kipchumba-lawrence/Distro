@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Breakages;
+use App\Http\Controllers\Sale;
 use App\Http\Controllers\Product;
 use App\Http\Controllers\Category;
 
@@ -15,10 +15,9 @@ use App\Http\Controllers\Category;
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
 
+use App\Http\Controllers\Customer;
+use App\Http\Controllers\Breakages;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
@@ -26,9 +25,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Sale;
 use App\Http\Controllers\UserProfileController;
 
+Route::get('/', function () {
+	return view('welcome');
+});
 Route::get('/', function () {
 	return redirect('/dashboard');
 })->middleware('auth');
@@ -40,17 +41,19 @@ Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+
+
+// Authenticated Routes
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::resource('category', Category::class);
 	Route::resource('product', Product::class);
+	Route::resource('customer', Customer::class);
 	Route::resource('breakages', Breakages::class);
-
-	// Clear breakages
 	Route::post('/breakages/{id}/cleared', [Breakages::class, 'cleared'])->name('breakages.cleared');
+	Route::get('/breakages/approved', [Breakages::class, 'approved'])->name('approvedBreakages');
 	Route::get('/POS', [Sale::class, 'show'])->name('POS');
-
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');

@@ -13,9 +13,9 @@ class Breakages extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {  
-    $breakages = Breakage::with('product', 'user')->where('cleared_status',0)->get();
-    return view('Breakages.index',compact('breakages'));
+    {
+        $breakages = Breakage::with('product', 'user')->where('cleared_status', 0)->get();
+        return view('Breakages.index', compact('breakages'));
     }
 
     /**
@@ -24,38 +24,43 @@ class Breakages extends Controller
     public function create()
     {
         $products = Product::with('category')->get();
-        $users= User::select('id','firstname','lastname')->get();
-        return view('Breakages.create', compact('products','users'));
+        $users = User::select('id', 'firstname', 'lastname')->get();
+        return view('Breakages.create', compact('products', 'users'));
+    }
+
+    public function approved()
+    {
+        $approvedBreakages = Breakage::where('cleared_status', 1)->with('user:first_name,last_name', 'product:name,category,price,quantity')->get();
+        return view('breakages.approved', compact('approvedBreakages'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-            public function store(Request $request)
-            {   
-                $request->validate([
-                    'product_id' => 'required',
-                    'user_id' => 'required',
-                    'quantity' => 'required',
-                    'date_of_breakage' => 'required',
-                    'reason' => 'required',
-                ]);
-                // Save the breakages record to the database
-                $breakage = new Breakage;
-                $breakage->product_id = $request->product_id;
-                $breakage->user_id = $request->user_id;
-                $breakage->quantity = $request->quantity;
-                $breakage->date_of_breakage = $request->date_of_breakage;
-                $breakage->reason= $request->reason;
-                $breakage->save();
-
-                // Update the stock
-                $brokenproduct=Product::find($request->product_id);
-                $brokenproduct->quantity -= $request->quantity;
-                $brokenproduct->save();
-            
-                return redirect()->route('breakages.create');
-            }    
+   public function store(Request $request)
+   {
+       $request->validate([
+           'product_id' => 'required',
+           'user_id' => 'required',
+           'quantity' => 'required',
+           'date_of_breakage' => 'required',
+           'reason' => 'required',
+       ]);
+   
+       $breakage = Breakage::create([
+           'product_id' => $request->product_id,
+           'user_id' => $request->user_id,
+           'quantity' => $request->quantity,
+           'date_of_breakage' => $request->date_of_breakage,
+           'reason' => $request->reason,
+       ]);
+   
+       $brokenProduct = Product::find($request->product_id);
+       $brokenProduct->quantity -= $request->quantity;
+       $brokenProduct->save();
+   
+       return redirect()->route('breakages.create');
+   }
 
 
     /**
@@ -85,9 +90,11 @@ class Breakages extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function cleared($id){
+    public function cleared($id)
+    {
         $breakage = Breakage::find($id);
         $breakage->cleared_status = 1;
+        $breakage->approved_date = date('Y-m-d');
         $breakage->save();
         return redirect()->route('breakages.index');
     }

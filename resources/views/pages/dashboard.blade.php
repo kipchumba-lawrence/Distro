@@ -15,9 +15,11 @@
                                         {{ $daySales }}
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                        since yesterday
+                                        <span class="@class(['text-success' => $percentageDaysell > 0, 'text-danger' => $percentageDaysell < 0, 'text-primary' => $percentageDaysell === 0]) text-sm font-weight-bolder">
+                                            {{ $percentageDaysell }} since yesterday
+                                        </span>
                                     </p>
+                                    
                                 </div>
                             </div>
                             <div class="col-4 text-end">
@@ -86,11 +88,19 @@
                             <div class="col-8">
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Month Sales</p>
-                                    <h5 class="font-weight-bolder"> {{ $monthSales }}
+                                    <h5 class="font-weight-bolder">{{ $monthSales }}
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                                        @if ($percentageMonthSell > 0)
+                                            <span class="text-success text-sm font-weight-bolder">{{ $percentageMonthSell }}</span> from last month
+                                        @elseif ($percentageMonthSell < 0)
+                                            <span class="text-danger text-sm font-weight-bolder">{{ $percentageMonthSell }}</span> from last month
+                                        @else
+                                            <span class="text-muted text-sm font-weight-bolder">{{ $percentageMonthSell }}</span> from last month
+                                        @endif
                                     </p>
+                                    
+                                    
                                 </div>
                             </div>
                             <div class="col-4 text-end">

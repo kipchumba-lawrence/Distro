@@ -50,6 +50,16 @@
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::currentRouteName() == 'customer' ? 'active' : '' }}"
+                    href="{{ route('customer.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-circle-08  text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Customers</span>
+                </a>
+            </li>
             <li class="nav-item mt-3 d-flex align-items-center">
                 <div class="ps-4">
                     <i class="ni ni-chart-pie-35 text-primary"></i>
@@ -57,7 +67,7 @@
                 {{-- Reports Section --}}
                 <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Reports</h6>
             </li>
-            
+
             {{-- Showcase sales records  --}}
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'record-breakage' ? 'active' : '' }}"
@@ -81,12 +91,6 @@
                     <span class="nav-link-text ms-1">Breakages</span>
                 </a>
             </li>
-
-
-
-
-
-
             <li class="nav-item">
                 <a class="nav-link {{ str_contains(request()->url(), 'user-management') == true ? 'active' : '' }}"
                     href="{{ route('page', ['page' => 'user-management']) }}">

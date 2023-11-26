@@ -147,7 +147,20 @@
                         <div id="menu-block" class="m-1 text-md text-bold">Mpesa</div>
                         <div id="menu-block" class="m-1 text-md text-bold">Future</div>
                     </div>
-                    <button id='submit-button' wire:click="checkout"><span class="text-lg text-bold">Checkout</span></button>
+                    <hr>
+                        <input type="text" class="form-control" wire:model="customer_search" name="search-field"
+                            placeholder="search customer...">
+                    @if ($customer != NULL)
+                        <table class="table table-striped">
+                            @foreach ($customer as $item)  
+                            <tr>
+                                <td>{{$item->name}}</td>
+                            </tr>
+                            @endforeach
+                        </table>
+                    @endif
+                    <button id='submit-button' wire:click="checkout"><span
+                            class="text-lg text-bold">Checkout</span></button>
                 </div>
             </div>
         @endif
