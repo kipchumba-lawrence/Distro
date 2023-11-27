@@ -18,6 +18,7 @@ class POS extends Component
     public $cartTotal;
     public $customer_search;
     public $customer;
+    public $selectedCustomer;
     public function mount()
     {
         $this->customer_search = NULL;
@@ -27,7 +28,9 @@ class POS extends Component
     public function render()
     {
         $this->cartItems = Cart::with('product')->get();
-        $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
+        if ($this->customer_search !== NULL) {
+            $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
+        }
         $this->cartTotal = Cart::sum('amount');
         return view('livewire.p-o-s');
     }
@@ -63,6 +66,7 @@ class POS extends Component
         $order = new Order();
         $order->total_amount = $this->cartTotal;
         $order->attended_by = auth()->id();
+        $order->customer_id = $this->selectedCustomer;
         $order->save();
 
         foreach ($this->cartItems as $cartItem) {
