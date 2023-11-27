@@ -63,6 +63,7 @@ class POS extends Component
     }
     public function checkout()
     {
+        // TODO: Add check for orders above 5,000ksh,customer must be added.
         $order = new Order();
         $order->total_amount = $this->cartTotal;
         $order->attended_by = auth()->id();
