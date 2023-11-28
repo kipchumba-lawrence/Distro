@@ -126,6 +126,7 @@
                         align-items: center;
                     }
 
+                    /*
                     #submit-button {
                         width: 100%;
                         height: 50px;
@@ -139,36 +140,50 @@
                         justify-content: center;
                         border-radius: 15px;
                         align-items: center;
-                    }
+                    } */
                 </style>
                 <div>
-                    <div class="mt-4" style="display: flex; justify-content: space-between;">
-                        <div id="menu-block" class="m-1 text-md text-bold">Guest</div>
-                        <div id="menu-block" class="m-1 text-md text-bold">Mpesa</div>
-                        <div id="menu-block" class="m-1 text-md text-bold">Future</div>
-                    </div>
                     <hr>
-                    <div class="row">
-                        <input type="text" class="form-control" wire:model.lazy="customer_search" name="search-field"
-                            placeholder="search customer...">
-                    </div>
-                    @if ($customer !== null)
-                        <form>
-                            <table class="table table-striped">
-                                @foreach ($customer as $item)
-                                    <tr>
-                                        <td>
-                                            <input type="radio" wire:model="selectedCustomer"
-                                                value="{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                    @endif
-                    <button id='submit-button' wire:click="checkout">
-                        <span class="text-lg text-bold">Checkout</span>
-                    </button>
+
+                    <form>
+                        <div class="row">
+                            <input type="text" class="form-control" wire:model.lazy="customer_search"
+                                name="search-field" placeholder="search customer...">
+                        </div>
+                        <table class="table table-striped table-sm">
+                            @foreach ($customer as $item)
+                                <tr>
+                                    <td>
+                                        <input class="form-check-input" type="radio" wire:click="selectCustomer({{ $item->id }})"
+                                            value="{{ $item->id }}">
+                                        <span class="text-sm">{{ $item->name }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                        @if ($cartTotal >= 5.0)
+                            @if (!is_null($selectedCustomer))
+                                <button class="mt-3 form-control btn btn-warning" wire:click="checkout">
+                                    <span style="color: white">
+                                        All conditions met
+                                    </span>
+                                </button>
+                            @else
+                                <button class="mt-3 form-control btn btn-warning" disabled wire:click="checkout">
+                                    <span style="color: white">
+                                        No customer
+                                    </span>
+                                </button>
+                            @endif
+                        @else
+                            <button class="mt-3 form-control btn btn-warning" wire:click="checkout">
+                                <span style="color: white">
+                                    Checkout 👍🏾
+                                </span>
+                            </button>
+                        @endif
+
+
                     </form>
                 </div>
             </div>

@@ -21,16 +21,12 @@ class POS extends Component
     public $selectedCustomer;
     public function mount()
     {
-        $this->customer_search = NULL;
-        $this->customer = NULL;
         $this->products = Product::where('quantity', '>', 0)->with('category')->get();
     }
     public function render()
     {
         $this->cartItems = Cart::with('product')->get();
-        if ($this->customer_search !== NULL) {
-            $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
-        }
+        $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
         $this->cartTotal = Cart::sum('amount');
         return view('livewire.p-o-s');
     }
@@ -63,13 +59,17 @@ class POS extends Component
     }
     public function checkout()
     {
-        // TODO: Add check for orders above 5,000ksh,customer must be added.
         $order = new Order();
-        $order->total_amount = $this->cartTotal;
-        $order->attended_by = auth()->id();
-        $order->customer_id = $this->selectedCustomer;
-        $order->save();
-
+        if ($order->total_amount >= 5) {
+            $order->total_amount = $this->cartTotal;
+            $order->attended_by = auth()->id();
+            $order->customer_id = $this->selectedCustomer;
+            $order->save();
+        } else {
+            $order->total_amount = $this->cartTotal;
+            $order->attended_by = auth()->id();
+            $order->save();
+        }
         foreach ($this->cartItems as $cartItem) {
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
@@ -86,5 +86,9 @@ class POS extends Component
 
         // Clear the cart after successful checkout
         Cart::truncate();
+    }
+    public function selectCustomer($id)
+    {
+        $this->selectedCustomer = $id;
     }
 }
