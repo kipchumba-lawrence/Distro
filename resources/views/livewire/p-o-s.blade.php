@@ -161,6 +161,7 @@
                                 </tr>
                             @endforeach
                         </table>
+                        {{-- FIX: Finalise this logic later --}}
                         @if ($cartTotal >= 5.0)
                             @if (!is_null($selectedCustomer))
                                 <button class="mt-3 form-control btn btn-warning" wire:click="checkout">

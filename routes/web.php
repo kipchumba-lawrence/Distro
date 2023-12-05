@@ -18,6 +18,7 @@ use App\Http\Controllers\Category;
 
 use App\Http\Controllers\Customer;
 use App\Http\Controllers\Breakages;
+use App\Http\Controllers\Inventory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
@@ -51,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('product', Product::class);
 	Route::resource('customer', Customer::class);
 	Route::resource('breakages', Breakages::class);
+	Route::resource('inventory', Inventory::class);
 	Route::post('/breakages/{id}/cleared', [Breakages::class, 'cleared'])->name('breakages.cleared');
 	Route::get('/breakages/approved', [Breakages::class, 'approved'])->name('approvedBreakages');
 	Route::get('/POS', [Sale::class, 'show'])->name('POS');
