@@ -23,7 +23,7 @@ class Category extends Controller
      */
     public function create()
     {
-        //
+        return view('Category.create');
     }
 
     /**
@@ -31,7 +31,11 @@ class Category extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+        ModelsCategory::create($request->all());
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');
     }
 
     /**

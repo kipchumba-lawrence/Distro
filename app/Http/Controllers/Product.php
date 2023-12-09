@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product as ProductModel;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class Product extends Controller
@@ -11,7 +12,8 @@ class Product extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   $products=ProductModel::with('category')->get();
+    {
+        $products = ProductModel::with('category')->get();
         // dd($products[0]);
         return view('Product.index', compact('products'));
     }
@@ -21,8 +23,10 @@ class Product extends Controller
      */
     public function create()
     {
-        #Create the route for creatinf the product
-        return view('Product.create');
+        $categories = Category::select('name', 'id')->get();
+        // get the unique values of packaging field in the category model
+        $packaging = ProductModel::select('packaging')->distinct()->get();
+        return view('Product.create', compact('categories', 'packaging'));
     }
 
     /**
@@ -30,7 +34,20 @@ class Product extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            'category_id' => 'required',
+            'packaging' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
+        ]);
+        // Use the create method to create and save a new Product
+        ProductModel::create($validatedData);
+
+        // Redirect back or wherever you want after saving
+        return redirect()->back()->with('success', 'Product created successfully');
     }
 
     /**

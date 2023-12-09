@@ -10,10 +10,11 @@
                         <h6>Categories</h6>
 
                         <div class="ml-auto">
+                            <a href="{{ route('category.create') }}">
 
-                            <button class="btn btn-xs btn-secondary" data-bs-toggle="modal"
-                                data-bs-target="#create_category">Add
-                                Category +</button>
+                                <button class="btn btn-md btn-primary">Add
+                                    New
+                                    Category</button></a>
                         </div>
                     </div>
 

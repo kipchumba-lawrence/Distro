@@ -39,7 +39,7 @@ class Inventory extends Controller
         $product = Product::find($request->product)->select('id')->first();
         $product->quantity = $product->quantity + $request->quantity;
         $product->save();
-        return redirect()->route('inventory.create')->with('message', 'Inventory Updated Succesfully');
+        return redirect()->route('inventory.create')->with('success', 'Inventory Updated Succesfully');
     }
 
     /**
