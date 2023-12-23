@@ -8,7 +8,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h4>Add Product Stock</h4>
 
-                        <a href="{{ route('breakages.create') }}">
+                        <a href="{{ route('inventory.create') }}">
                             <button class="btn btn-primary">Create Product</button>
                         </a>
                     </div>

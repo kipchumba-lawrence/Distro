@@ -74,8 +74,6 @@
     <script src="{{ asset('assets/js/argon-dashboard.js') }}"></script>
 
     @stack('js');
-    <x-notify::notify />
-    @notifyJs
     @livewireScripts
 </body>
 

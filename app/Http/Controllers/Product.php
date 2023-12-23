@@ -63,7 +63,10 @@ class Product extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product=ProductModel::find($id);
+        $categories = Category::select('name', 'id')->get();
+        $packaging = ProductModel::select('packaging')->distinct()->get();
+        return view('Product.edit', compact('product', 'categories', 'packaging'));
     }
 
     /**
@@ -71,7 +74,9 @@ class Product extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product=ProductModel::find($id);
+        $product->update($request->all());
+        return redirect()->route('product.index')->with('success', 'Product updated successfully');
     }
 
     /**

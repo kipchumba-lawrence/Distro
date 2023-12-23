@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Breakage extends Model
 {
     use HasFactory;
+    protected $fillable=['user_id','product_id','quantity','reason','image','status'];
 protected $table='breakages';
 public function user(){
     return $this->belongsTo(User::class);

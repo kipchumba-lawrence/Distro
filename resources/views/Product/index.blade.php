@@ -10,7 +10,8 @@
                         <h6>Products</h6>
                         <div class="ml-auto">
                             <!-- Content to align to the right goes here -->
-                            <a href="{{route('product.create')}}"><button class="btn btn-md btn-primary" data-bs-toggle="modal">Create New Product</button></a>
+                            <a href="{{ route('product.create') }}"><button class="btn btn-md btn-primary"
+                                    data-bs-toggle="modal">Create New Product</button></a>
                         </div>
                     </div>
                 </div>
@@ -39,9 +40,9 @@
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Updated Date</th>
-                                    {{-- <th
+                                    <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Action</th> --}}
+                                        Action</th>
                                 </tr>
                             </thead>
                             @livewire('create-category')
@@ -69,6 +70,16 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-sm font-weight-bold mb-0">{{ $product->updated_at }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <a href="{{route('product.edit', $product->id)}}">
+                                                    {{-- Add route to edit the products --}}
+                                                    <p class="text-xs font-weight-bold mb-0"><span>
+                                                            <i class="fas fa-pencil-alt text-dark me-2"
+                                                                aria-hidden="true"></i>
+                                                            Edit
+                                                        </span></p>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

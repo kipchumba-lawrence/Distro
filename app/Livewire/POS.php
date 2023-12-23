@@ -8,7 +8,6 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\OrderDetail;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -111,7 +110,8 @@ class POS extends Component
             $item->save();
         }
         else{
-            session()->flash('success', 'Inventory Updated Successfully');
+            $this->dispatchBrowserEvent('show-success-alert', ['message' => 'Inventory Updated Successfully']);
+
         }
     }
      public function clearCart(){
