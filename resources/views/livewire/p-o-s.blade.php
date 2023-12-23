@@ -1,9 +1,10 @@
-<div class="row">
+<div style="position: relative; overflow: hidden; height: 100vh;">
+    <div class="row" style="height: 100%; overflow-y: auto;">
     <style>
         #productsCard {
-            background-color: #a74b157f;
+            background-color: #a74b15a8;
             color: white;
-            width: 119px;
+            width: 135px;
             padding: 10px !important;
             margin: 5px;
             float: left;
@@ -40,10 +41,11 @@
                 @foreach ($products as $product)
                     <div class="card" id="productsCard" wire:click="addToCart({{ $product->id }})">
                         <span class="text-bold">{{ $product->name }}</span>
-                        <span class="text-xxs"><i>{{ $product->category->name }}</i></span>
+                        <span class="text-xs"><i>{{ $product->category->name }}</i></span>
                         <span class="text-xxs"><i>{{ $product->packaging }}</i></span>
-                        <span class="text-xs text-right">{{ $product->quantity }}</span>
-                        <span class="text-sm text-bold text-center">Ksh. {{ $product->price }}</span>
+
+                        <span class="text-xxs text-right">{{ $product->quantity }} items</span>
+                        <span class="text-sm text-bold ">Ksh. {{ $product->price }}</span>
                     </div>
                     </a>
                 @endforeach
@@ -51,6 +53,8 @@
             </div>
         </div>
     </div>
+    {{-- make this stick while scrolling --}}
+
     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
         <div class="card pb-2">
             <div class="card-header pb-0 pt-3">
@@ -58,10 +62,10 @@
                 <hr>
             </div>
             @forelse ($cartItems as $item)
-                <div class="card px-3 py-2 mx-2 my-1">
+                <div class="card px-3 py-2 mx-2 my-1" style="background-color: #b49e9258;">
                     <div class="row">
                         <div class="col-6">
-                            <span class="text-xs"> {{ $item->product->name }}</span>
+                            <span class="text-md"> {{ $item->product->name }}</span>
                         </div>
                         <div class="col-4">
                             {{-- <form action="" method="POST">
@@ -73,13 +77,28 @@
                                 <input type="number" value="{{ $item->quantity }}" name="quantity" class="form-control" size="10">
                             </form>
                              --}}
-                            <span class="text-sm">Ksh. {{ $item->product->price }}</span>
+                            <span class="text-sm">Ksh. {{ $item->quantity * $item->product->price }}</span>
                         </div>
                         <div class="col-2">
                             <i class="fa fa-trash" wire:click="removeFromCart({{ $item->id }})"
                                 style="color: red; cursor: pointer;" aria-hidden="true"></i>
                         </div>
 
+                    </div>
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-center">
+
+                            {{-- Quantity Control --}}
+                            <button class="btn btn-primary btn-xs"
+                                wire:click="removeQuantity({{ $item->id }})"><span
+                                    class="text-lg">-</span></button>
+                            <span class="text-md mx-2">
+                                {{ $item->quantity }}
+                            </span>
+                            <button class="btn btn-primary btn-xs" wire:click="addQuantity({{ $item->id }})"><span
+                                    class="text-lg">+</span></button>
+
+                        </div>
                     </div>
                 </div>
             @empty
@@ -145,7 +164,7 @@
                 <div>
                     <hr>
 
-                    <form>
+                    {{-- <form wire:submit.prevent="checkout">
                         <div class="row">
                             <input type="text" class="form-control" wire:model.lazy="customer_search"
                                 name="search-field" placeholder="search customer...">
@@ -154,37 +173,22 @@
                             @foreach ($customer as $item)
                                 <tr>
                                     <td>
-                                        <input class="form-check-input" type="radio" wire:click="selectCustomer({{ $item->id }})"
+                                        <input class="form-check-input" type="radio"
+                                            wire:click="selectCustomer({{ $item->id }})"
                                             value="{{ $item->id }}">
                                         <span class="text-sm">{{ $item->name }}</span>
                                     </td>
                                 </tr>
                             @endforeach
-                        </table>
-                        {{-- FIX: Finalise this logic later --}}
-                        @if ($cartTotal >= 5.0)
-                            @if (!is_null($selectedCustomer))
-                                <button class="mt-3 form-control btn btn-warning" wire:click="checkout">
-                                    <span style="color: white">
-                                        All conditions met
-                                    </span>
-                                </button>
-                            @else
-                                <button class="mt-3 form-control btn btn-warning" disabled wire:click="checkout">
-                                    <span style="color: white">
-                                        No customer
-                                    </span>
-                                </button>
-                            @endif
-                        @else
-                            <button class="mt-3 form-control btn btn-warning" wire:click="checkout">
-                                <span style="color: white">
-                                    Checkout 👍🏾
-                                </span>
-                            </button>
-                        @endif
-
-
+                        </table> --}}
+                    {{-- FIX: Finalise this logic later --}}
+                    <button class="mt-3 form-control btn btn-warning">
+                        <span style="color: white">
+                            Print Receipt
+                        </span>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger form-control" wire:click="clearCart">Clear
+                        Cart</button>
                     </form>
                 </div>
             </div>
@@ -193,4 +197,5 @@
 
 
     </div>
+</div>
 </div>

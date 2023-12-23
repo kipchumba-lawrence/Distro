@@ -3,12 +3,13 @@
 namespace App\Livewire;
 
 use App\Models\Cart;
-use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class POS extends Component
@@ -27,7 +28,10 @@ class POS extends Component
     {
         $this->cartItems = Cart::with('product')->get();
         $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
-        $this->cartTotal = Cart::sum('amount');
+        // $this->cartTotal = Cart::sum('amount');
+        $this->cartTotal = Cart::sum(DB::raw('quantity * amount'));
+
+        
         return view('livewire.p-o-s');
     }
     public function addToCart($productID)
@@ -46,13 +50,6 @@ class POS extends Component
             notify()->success('Already added!');
         }
     }
-    public function update($itemID, Request $request)
-    {
-        $item = Cart::where('id', $itemID)->first();
-        $price = Product::where('id', $item->product_id)->select('price')->get();
-        $price = $price[0]->price;
-        dd($request->input('quantity'));
-    }
     public function removeFromCart($itemID)
     {
         Cart::where('id', $itemID)->delete();
@@ -60,7 +57,7 @@ class POS extends Component
     public function checkout()
     {
         $order = new Order();
-        if ($order->total_amount >= 5) {
+        if ($this->cartTotal >= 5) {
             $order->total_amount = $this->cartTotal;
             $order->attended_by = auth()->id();
             $order->customer_id = $this->selectedCustomer;
@@ -70,6 +67,7 @@ class POS extends Component
             $order->attended_by = auth()->id();
             $order->save();
         }
+
         foreach ($this->cartItems as $cartItem) {
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
@@ -83,12 +81,40 @@ class POS extends Component
             $product->quantity -= $cartItem->quantity;
             $product->save();
         }
-
         // Clear the cart after successful checkout
         Cart::truncate();
+        return redirect()->route('POS')->with('success', 'Order Created Succesfully Succesfully');
+
     }
     public function selectCustomer($id)
     {
         $this->selectedCustomer = $id;
     }
+    
+    public function addQuantity($itemID){
+        $item = Cart::where('id', $itemID)->with('product')->first();
+        $inventory=$item->product->quantity;
+        if($item->quantity<$inventory){
+            $item->quantity += 1;
+            $item->save();
+        }else{
+            session()->flash('success', 'Inventory Updated Successfully');
+
+        }
+        
+    }
+    public function removeQuantity($itemID){
+        
+        $item = Cart::where('id', $itemID)->first();
+        if($item->quantity>1){
+            $item->quantity -= 1;
+            $item->save();
+        }
+        else{
+            session()->flash('success', 'Inventory Updated Successfully');
+        }
+    }
+     public function clearCart(){
+        Cart::truncate();
+     }
 }
