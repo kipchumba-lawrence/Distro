@@ -19,6 +19,7 @@ class POS extends Component
     public $customer_search;
     public $customer;
     public $selectedCustomer;
+    public $searchTerm = '';
     public function mount()
     {
         $this->products = Product::where('quantity', '>', 0)->with('category')->get();
@@ -27,10 +28,7 @@ class POS extends Component
     {
         $this->cartItems = Cart::with('product')->get();
         $this->customer = Customer::where('name', 'like', '%' . $this->customer_search . '%')->select('name', 'id')->take(10)->get();
-        // $this->cartTotal = Cart::sum('amount');
         $this->cartTotal = Cart::sum(DB::raw('quantity * amount'));
-
-        
         return view('livewire.p-o-s');
     }
     public function addToCart($productID)
@@ -83,38 +81,43 @@ class POS extends Component
         // Clear the cart after successful checkout
         Cart::truncate();
         return redirect()->route('POS')->with('success', 'Order Created Succesfully Succesfully');
-
     }
     public function selectCustomer($id)
     {
         $this->selectedCustomer = $id;
     }
-    
-    public function addQuantity($itemID){
+
+    public function addQuantity($itemID)
+    {
         $item = Cart::where('id', $itemID)->with('product')->first();
-        $inventory=$item->product->quantity;
-        if($item->quantity<$inventory){
+        $inventory = $item->product->quantity;
+        if ($item->quantity < $inventory) {
             $item->quantity += 1;
             $item->save();
-        }else{
+        } else {
             session()->flash('success', 'Inventory Updated Successfully');
-
         }
-        
     }
-    public function removeQuantity($itemID){
-        
+    public function removeQuantity($itemID)
+    {
+
         $item = Cart::where('id', $itemID)->first();
-        if($item->quantity>1){
+        if ($item->quantity > 1) {
             $item->quantity -= 1;
             $item->save();
-        }
-        else{
+        } else {
             $this->dispatchBrowserEvent('show-success-alert', ['message' => 'Inventory Updated Successfully']);
-
         }
     }
-     public function clearCart(){
+    public function clearCart()
+    {
         Cart::truncate();
-     }
+    }
+    public function productSearch()
+    {
+        $this->products = Product::where('name', 'like', '%' . $this->searchTerm . '%')->get();
+    }
+    public function clearSearch(){
+        $this->searchTerm = '';
+    }
 }

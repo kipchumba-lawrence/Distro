@@ -23,20 +23,28 @@
                 <div class="card-header pb-0 pt-3">
                     <h3 class="text-capitalize">Point of Sale</h3>
                     <p class="text-sm mb-0">
-                        <span class="font-weight-bold">
-                            {{-- Add Time and date here --}}
+                        <span class="font-weight-bold text-xs">
+                            {{ now()->format('d M Y, h:i A') }}
                         </span>
                     </p>
                 </div>
                 <div class="card-body">
-                    <div class="my-1">
-                        {{-- Work on adding the new search field to filter products based on product name and category --}}
-                        <form action="">
-                            {{ csrf_field() }}
-                            <input type="text" class="form-control" name="search-field"
+                    {{-- Work on adding the new search field to filter products based on product name and category --}}
+                    <form wire:submit.prevent="productSearch">
+                        <div class="d-flex justify-content-between">
+                            <input type="text" wire:model='searchTerm' class="form-control"
                                 placeholder="search products...">
-                        </form>
-                    </div>
+                            {{-- <input type="submit" class="btn btn-md mx-2 my-1 btn-primary" value="Search"> --}}
+                            <button wire:click="productSearch" type="submit"
+                                class="btn btn-sm btn-primary mx-2 my-2">Search</button>
+                            @if (!empty($searchTerm))
+                                <button wire:click="clearSearch" type="submit"
+                                    class="btn btn-sm btn-danger mx-2 my-2">Clear</button>
+                            @endif
+
+                        </div>
+                    </form>
+                    <hr>
                     {{-- Start of product card --}}
                     @foreach ($products as $product)
                         <div class="card" id="productsCard" wire:click="addToCart({{ $product->id }})">
@@ -68,15 +76,6 @@
                                 <span class="text-md"> {{ $item->product->name }}</span>
                             </div>
                             <div class="col-4">
-                                {{-- <form action="" method="POST">
-                                <input type="number" value="{{ $item->quantity }}" onchange="submit" name="quantity" class="form-control"
-                                    size="10">
-                            </form> --}}
-
-                                {{-- <form wire:submit.prevent="update('{{ $item->id }}')">
-                                <input type="number" value="{{ $item->quantity }}" name="quantity" class="form-control" size="10">
-                            </form>
-                             --}}
                                 <span class="text-sm">Ksh. {{ $item->quantity * $item->product->price }}</span>
                             </div>
                             <div class="col-2">
@@ -118,56 +117,56 @@
                 @endforelse
             </div>
             @if ($cartItems->isNotEmpty())
-            <div class="card my-2 p-3">
-                <div class="row">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-sm text-bold">Subtotal</div>
-                        <div class="text-sm">Ksh. {{ $cartTotal }}</div>
+                <div class="card my-2 p-3">
+                    <div class="row">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-sm text-bold">Subtotal</div>
+                            <div class="text-sm">Ksh. {{ $cartTotal }}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-sm text-bold">Tax</div>
-                        <div class="text-sm">Ksh. {{ $cartTotal * 0.09 }}</div>
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-sm text-bold">Tax</div>
+                            <div class="text-sm">Ksh. {{ $cartTotal * 0.09 }}</div>
+                        </div>
                     </div>
-                </div>
-                <hr>
-                <div class="row mt-2">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-md text-bold">Total</div>
-                        <div class="text-md text-bold">Ksh. {{ $cartTotal + $cartTotal * 0.09 }}</div>
-                    </div>
-                </div>
-                <style>
-                    #menu-block {
-                        width: 120px;
-                        height: 50px;
-                        display: flex;
-                        border: solid;
-                        border-color: #a74b157f;
-                        text-align: center;
-                        color: #a74b15c7;
-                        justify-content: center;
-                        border-radius: 15px;
-                        align-items: center;
-                    }
-                </style>
-                <div>
                     <hr>
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-md text-bold">Total</div>
+                            <div class="text-md text-bold">Ksh. {{ $cartTotal + $cartTotal * 0.09 }}</div>
+                        </div>
+                    </div>
+                    <style>
+                        #menu-block {
+                            width: 120px;
+                            height: 50px;
+                            display: flex;
+                            border: solid;
+                            border-color: #a74b157f;
+                            text-align: center;
+                            color: #a74b15c7;
+                            justify-content: center;
+                            border-radius: 15px;
+                            align-items: center;
+                        }
+                    </style>
+                    <div>
+                        <hr>
 
-                    <form wire:submit.prevent="checkout">
-                        {{-- FIX: Finalise this logic later --}}
-                        <button class="mt-3 form-control btn btn-warning" type="submit">
-                            <span style="color: white">
-                                Print Receipt
-                            </span>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger form-control"
-                            wire:click="clearCart">Clear
-                            Cart</button>
-                    </form>
+                        <form wire:submit.prevent="checkout">
+                            {{-- FIX: Finalise this logic later --}}
+                            <button class="mt-3 form-control btn btn-warning" type="submit">
+                                <span style="color: white">
+                                    Print Receipt
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger form-control"
+                                wire:click="clearCart">Clear
+                                Cart</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
             @endif
 
 
