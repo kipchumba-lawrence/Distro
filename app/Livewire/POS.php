@@ -79,8 +79,8 @@ class POS extends Component
             $product->save();
         }
         // Clear the cart after successful checkout
-        Cart::truncate();
-        return redirect()->route('POS')->with('success', 'Order Created Succesfully Succesfully');
+        // Cart::truncate();
+        return redirect()->route('receipt')->with('success', 'Order Created Succesfully');
     }
     public function selectCustomer($id)
     {

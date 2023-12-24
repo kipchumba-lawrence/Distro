@@ -36,10 +36,10 @@
                                 placeholder="search products...">
                             {{-- <input type="submit" class="btn btn-md mx-2 my-1 btn-primary" value="Search"> --}}
                             <button wire:click="productSearch" type="submit"
-                                class="btn btn-sm btn-primary mx-2 my-2">Search</button>
+                                class="btn btn-sm btn-primary mx-1 my-2">Search</button>
                             @if (!empty($searchTerm))
                                 <button wire:click="clearSearch" type="submit"
-                                    class="btn btn-sm btn-danger mx-2 my-2">Clear</button>
+                                    class="btn btn-sm btn-danger mx-1 my-2">Clear</button>
                             @endif
 
                         </div>
@@ -63,6 +63,7 @@
         </div>
         {{-- make this stick while scrolling --}}
 
+        
         <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card pb-2">
                 <div class="card-header pb-0 pt-3">
