@@ -64,7 +64,8 @@ class POS extends Component
             $order->attended_by = auth()->id();
             $order->save();
         }
-
+        $savedorder = Order::latest()->first();
+        $orderid=$savedorder->id;
         foreach ($this->cartItems as $cartItem) {
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
@@ -80,7 +81,8 @@ class POS extends Component
         }
         // Clear the cart after successful checkout
         // Cart::truncate();
-        return redirect()->route('receipt')->with('success', 'Order Created Succesfully');
+        // return redirect()->route('receipt')->with('success', 'Order Created Succesfully');
+        return redirect()->route('receipt', $orderid)->with('success', 'Order Created Succesfully');
     }
     public function selectCustomer($id)
     {

@@ -11,9 +11,11 @@ class Sale extends Controller
     public function show(){
         return view('POS.index');
     }
-    public function receipt()
+    public function receipt(Request $request)
 {
     $order=Cart::with('product')->get();
+    $orderID=$request->orderID;
     $total=Cart::sum(DB::raw('quantity * amount'));
-   return view('POS.receipt', compact('order','total'));
+
+   return view('POS.receipt', compact('order','orderID','total'));
 }}

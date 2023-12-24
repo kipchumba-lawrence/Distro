@@ -35,7 +35,7 @@ class Customer extends Controller
 
         CustomerModel::create($validatedData);
         // session()->flash('message', 'Post successfully updated.');
-        return redirect()->back()->with('success', 'Record created successfully');
+        return redirect()->route('customer.index')->with('success', 'Customer created successfully');
     }
 
 
