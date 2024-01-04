@@ -30,13 +30,8 @@ class Inventory extends Controller
      */
     public function store(Request $request)
     {
-        InventoryModel::create([
-            'product_id' => $request->product,
-            'quantity' => $request->quantity,
-            'created_by' => auth()->user()->id
-        ]);
         // Update product model with new inventory
-        $product = Product::find($request->product)->select('id')->first();
+        $product = Product::find($request->product)->first();
         $product->quantity = $product->quantity + $request->quantity;
         $product->save();
         return redirect()->route('inventory.create')->with('success', 'Inventory Updated Succesfully');
@@ -47,7 +42,7 @@ class Inventory extends Controller
      */
     public function show(string $id)
     {
-        //
+        //Create a new inventory model
     }
 
     /**
