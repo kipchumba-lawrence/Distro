@@ -63,7 +63,7 @@
         </div>
         {{-- make this stick while scrolling --}}
 
-        
+
         <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card pb-2">
                 <div class="card-header pb-0 pt-3">
@@ -159,7 +159,7 @@
                             {{-- FIX: Finalise this logic later --}}
                             <button class="mt-3 form-control btn btn-warning" type="submit">
                                 <span style="color: white">
-                                    Print Receipt
+                                    Checkout
                                 </span>
                             </button>
                             <button type="button" class="btn btn-outline-danger form-control"

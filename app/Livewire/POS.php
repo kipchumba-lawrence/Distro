@@ -53,36 +53,7 @@ class POS extends Component
     }
     public function checkout()
     {
-        $order = new Order();
-        if ($this->cartTotal >= 5) {
-            $order->total_amount = $this->cartTotal;
-            $order->attended_by = auth()->id();
-            $order->customer_id = $this->selectedCustomer;
-            $order->save();
-        } else {
-            $order->total_amount = $this->cartTotal;
-            $order->attended_by = auth()->id();
-            $order->save();
-        }
-        $savedorder = Order::latest()->first();
-        $orderid=$savedorder->id;
-        foreach ($this->cartItems as $cartItem) {
-            $orderDetail = new OrderDetail();
-            $orderDetail->order_id = $order->id;
-            $orderDetail->product_id = $cartItem->product_id;
-            $orderDetail->quantity = $cartItem->quantity;
-            $orderDetail->amount = $cartItem->amount;
-            $orderDetail->save();
-
-            // Update the product stock in the products table
-            $product = Product::find($cartItem->product_id);
-            $product->quantity -= $cartItem->quantity;
-            $product->save();
-        }
-        // Clear the cart after successful checkout
-        // Cart::truncate();
-        // return redirect()->route('receipt')->with('success', 'Order Created Succesfully');
-        return redirect()->route('receipt', $orderid)->with('success', 'Order Created Succesfully');
+        return redirect()->route('receipt')->with('success', 'Order Created Succesfully');
     }
     public function selectCustomer($id)
     {

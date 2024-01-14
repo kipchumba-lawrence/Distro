@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/breakages/{id}/cleared', [Breakages::class, 'cleared'])->name('breakages.cleared');
 	Route::get('/breakages/approved', [Breakages::class, 'approved'])->name('approvedBreakages');
 	Route::get('/POS', [Sale::class, 'show'])->name('POS');
-	Route::get('receipt/{orderID}',[Sale::class, 'receipt'])->name('receipt');
+	Route::get('checkout/',[Sale::class, 'receipt'])->name('receipt');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');

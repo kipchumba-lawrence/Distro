@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'category' ? 'active' : '' }}"
+                <a class="nav-link {{ Route::currentRouteName() == 'category.index' ? 'active' : '' }}"
                     href="{{ route('category.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'product' ? 'active' : '' }}"
+                <a class="nav-link {{ Route::currentRouteName() == 'product.index' ? 'active' : '' }}"
                     href="{{ route('product.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -51,7 +51,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'customer' ? 'active' : '' }}"
+                <a class="nav-link {{ Route::currentRouteName() == 'customer.index' ? 'active' : '' }}"
                     href="{{ route('customer.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">

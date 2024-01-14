@@ -32,7 +32,7 @@ class Breakages extends Controller
     public function approved()
     {
         $approvedBreakages = Breakage::where('cleared_status', 1)->with('user:first_name,last_name', 'product:name,category,price,quantity')->get();
-        return view('breakages.approved', compact('approvedBreakages'));
+        return view('Breakages.approved', compact('approvedBreakages'));
     }
 
     /**

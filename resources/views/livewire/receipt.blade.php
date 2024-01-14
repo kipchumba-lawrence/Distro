@@ -16,10 +16,10 @@
                         <span class="text-lg">Distro System</span>
                         <br>
                         <span>{{ date('Y-m-d H:i:s') }}</span>
-                        <table class="table table-sm">
-                            <thead class="text-right">
+                        <table class="table table-sm table-striped">
+                            <thead class="text-start">
                                 <tr>
-                                    <th class="text-leftt">
+                                    <th class="text-start">
                                         Product
                                     </th>
                                     <th class="text-left">
@@ -66,7 +66,7 @@
                         <div class="d-flex justify-content-start">
                             @if ($customer_id)
                                 <p class="text-xxs font-weight-bold mb-0">Customer Name:
-                                    {{ $customer_id }}
+                                    {{ $selectedCustomer->name }}
                             @endif
                         </div>
                         </p>
@@ -102,13 +102,12 @@
                                     <button class="btn btn-sm btn-primary" wire:click="customerSearchHandle"
                                         type="submit"><span class="text-xs">Search</span></button>
                                 </div>
-                                @if (!isempty($customerList))
-
-                                    <table class="table-sm table">
+                                @if (!empty($customerList))
+                                    <table class="table-sm table table-striped">
                                         <thead>
-                                            <th class="text-xxs"></th>
+                                            <th class="text-xxs" style="width: 5%;"></th>
                                             <th class="text-xxs">Name</th>
-                                            <th class="text-xxs">Phone Number</th>
+                                            <th class="text-xxs">Phone</th>
                                             <th class="text-xxs">Email</th>
                                         </thead>
                                         <tbody>
@@ -116,7 +115,7 @@
                                                 <tr wire:key="{{ $customer->id }}">
                                                     <td>
                                                         <span class="text-xxs">
-                                                            <input type="checkbox" name="customer"
+                                                            <input type="radio" name="customer"
                                                                 value="{{ $customer->id }}" wire:model="customer_id"
                                                                 id="customer_{{ $customer->id }}">
                                                         </span>
@@ -130,19 +129,26 @@
                                                     <td>
                                                         <span class="text-xxs">{{ $customer->email }}</span>
                                                     </td>
+
                                                 </tr>
-
-
                                             @empty
-                                                Customer Not Found!
+                                                <tr>
+                                                    <td colspan="3">Customer Not Found!</td>
+                                                </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
                                 @endif
+
                             </div>
                             <button class="btn btn-primary btn-sm d-flex justify-content-center mt-3"
                                 wire:click="addCustomer">Add
                                 Customer</button>
+                            @if (!empty($customer_id))
+                                <button class="btn btn-sm btn-danger d-flex justify-content-center mt-3"
+                                    wire:click="removeCustomer">Remove
+                                    Customer</button>
+                            @endif
 
                         </form>
                     </div>
@@ -153,8 +159,13 @@
                     </select>
                     @if ($paymentOption == 'Mpesa')
                         <label for="">Phone Number</label>
-                        <input type="number" maxlength="12" name="phone" id="" class="form-control"
-                            placeholder="2547" required>
+                        @if (!empty($customer_id))
+                            <input type="text" maxlength="12" name="phone" id="" class="form-control"
+                                placeholder="2547" value="{{ $selectedCustomer->phone_number }}" required>
+                        @else
+                            <input type="text" maxlength="12" name="phone" id="" class="form-control"
+                                placeholder="2547" required>
+                        @endif
                     @endif
                     <button class="btn btn-primary btn-lg form-control mt-4" wire:click="Test">Pay</button>
                     {{-- TODO: Create the logic for regulating the order system to prevent duplicate orders --}}
@@ -167,8 +178,9 @@
             </div>
             <div class="d-flex align-items-end">
                 {{-- Handle the order in the event of incompletion --}}
-                <button type="button" class="btn btn-danger btn-sm m-1">Delete Order</button>
-                <button type="button" class="btn btn-success btn-sm m-1">Confirm Order</button>
+                <button type="button" wire:click="deleteOrder" class="btn btn-danger btn-sm m-1">Delete Order</button>
+                <button type="button" wire:click="checkout" class="btn btn-success btn-sm m-1">Complete
+                    Order</button>
                 <button type="button" class="btn btn-primary btn-sm m-1">Back to POS</button>
             </div>
 
