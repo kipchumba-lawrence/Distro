@@ -63,36 +63,99 @@
                             </tbody>
                         </table>
                         <hr>
-                        <table class="table table-sm">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">
-                                            Total
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">
-                                            Ksh. {{ $total }}
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="d-flex justify-content-start">
+                            @if ($customer_id)
+                                <p class="text-xxs font-weight-bold mb-0">Customer Name:
+                                    {{ $customer_id }}
+                            @endif
+                        </div>
+                        </p>
+                        <div class="d-flex justify-content-end">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                Total
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">
+                                                Ksh. {{ $total }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
+                    <div class="card p-3">
+                        <form action="" wire:submit.prevent>
+                            <div class="row">
+                                <div class="col-8 col-md-8">
+                                    <input type="text" wire:model="customerSearch"
+                                        placeholder="Search Customer Name or phone" class="form-control">
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <button class="btn btn-sm btn-primary" wire:click="customerSearchHandle"
+                                        type="submit"><span class="text-xs">Search</span></button>
+                                </div>
+                                @if (!isempty($customerList))
 
-                        <label for="">Payment Method</label>
-                        <select name="payment" id="" wire:model.lazy="paymentOption" class="form-control">
-                            <option value="Cash">Cash</option>
-                            <option value="Mpesa">Mpesa</option>
-                        </select>
-                        @if ($paymentOption == 'Mpesa')
-                            <label for="">Phone Number</label>
-                            <input type="number" maxlength="12" name="phone" id="" class="form-control" placeholder="2547" required>
-                            
-                        @endif
+                                    <table class="table-sm table">
+                                        <thead>
+                                            <th class="text-xxs"></th>
+                                            <th class="text-xxs">Name</th>
+                                            <th class="text-xxs">Phone Number</th>
+                                            <th class="text-xxs">Email</th>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($customerList as $customer)
+                                                <tr wire:key="{{ $customer->id }}">
+                                                    <td>
+                                                        <span class="text-xxs">
+                                                            <input type="checkbox" name="customer"
+                                                                value="{{ $customer->id }}" wire:model="customer_id"
+                                                                id="customer_{{ $customer->id }}">
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-xxs">{{ $customer->name }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-xxs">{{ $customer->phone_number }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-xxs">{{ $customer->email }}</span>
+                                                    </td>
+                                                </tr>
+
+
+                                            @empty
+                                                Customer Not Found!
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                @endif
+                            </div>
+                            <button class="btn btn-primary btn-sm d-flex justify-content-center mt-3"
+                                wire:click="addCustomer">Add
+                                Customer</button>
+
+                        </form>
+                    </div>
+                    <label for="">Payment Method</label>
+                    <select name="payment" id="" wire:model.lazy="paymentOption" class="form-control">
+                        <option value="Cash">Cash</option>
+                        <option value="Mpesa">Mpesa</option>
+                    </select>
+                    @if ($paymentOption == 'Mpesa')
+                        <label for="">Phone Number</label>
+                        <input type="number" maxlength="12" name="phone" id="" class="form-control"
+                            placeholder="2547" required>
+                    @endif
                     <button class="btn btn-primary btn-lg form-control mt-4" wire:click="Test">Pay</button>
                     {{-- TODO: Create the logic for regulating the order system to prevent duplicate orders --}}
                 </div>
@@ -103,6 +166,7 @@
                 </span>
             </div>
             <div class="d-flex align-items-end">
+                {{-- Handle the order in the event of incompletion --}}
                 <button type="button" class="btn btn-danger btn-sm m-1">Delete Order</button>
                 <button type="button" class="btn btn-success btn-sm m-1">Confirm Order</button>
                 <button type="button" class="btn btn-primary btn-sm m-1">Back to POS</button>

@@ -98,7 +98,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-archive-2 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Inventory Management
+                    <span class="nav-link-text ms-1">Inventory
                         <span class="badge badge-xs bg-gradient-success">New</span>
 
                     </span>
@@ -113,7 +113,7 @@
                     </div>
                     <span class="nav-link-text ms-1">User Management</span>
                 </a>
-            </li>
+                {{-- </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Pages</h6>
             </li>
@@ -187,11 +187,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Sign Up</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
-    {{-- <div class="sidenav-footer mx-3 ">
-        <a href="/docs/bootstrap/overview/argon-dashboard/index.html" target="_blank"
-            class="btn btn-dark btn-sm w-100 mb-3">Documentation</a>
-    </div> --}}
 </aside>

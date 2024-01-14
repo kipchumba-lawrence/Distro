@@ -1,6 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Record Breakage'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Record Inventory'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             <div class="card mb-4 p-4">
